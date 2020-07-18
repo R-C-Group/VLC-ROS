@@ -11,10 +11,10 @@ if [ $A != 'root' ]; then
    exit 1;
 fi
 
+# 与管理员权限有关的rule文件
+cp 88-mvusb.rules /etc/udev/rules.d/
 
-# cp 88-mvusb.rules /etc/udev/rules.d/
-
-
+# 运行库设置
 echo $B
 if [ $B = "x86_64" ]; then
 	cp x86_64/libMVSDK.so  /lib
