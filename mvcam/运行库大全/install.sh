@@ -23,7 +23,7 @@ if [ $B = "x86_64" ]; then
 elif [ $B = "i386" ]; then
 	cp i386/libMVSDK.so  /lib
 	cp i386/libMVSDK.so  ../lib
-	echo "Copy i386 libMVSDK.so to /lib"
+	echo "Copy i386 32bit libMVSDK.so to /lib"
 elif [ $B = "armhf" ]; then
 	cp armhf/libMVSDK.so  /lib
 	cp armhf/libMVSDK.so  ../lib
