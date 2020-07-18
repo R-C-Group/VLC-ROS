@@ -263,8 +263,8 @@ public:
     IMAGE_LISTENER_and_LOCATOR()
       :it_(nh_) {   // 构造函数
         // 定义图象接受器，订阅话题是“camera/image”
-        image_sub_ = it_.subscribe("/mvcam/image", 1, &IMAGE_LISTENER_and_LOCATOR::convert_callback, this);
-        image_pub_ = it_.advertise("/location/image_show", 1);  // 定义ROS图象发布器
+        image_sub_ = it_.subscribe("mvcam/image", 1, &IMAGE_LISTENER_and_LOCATOR::convert_callback, this);
+        image_pub_ = it_.advertise("location/image_show", 1);  // 定义ROS图象发布器
         msgPointPub = nh_.advertise<geometry_msgs::PointStamped>("location", 1000);
         // 初始化输入输出窗口
         // cv::namedWindow(INPUT);
@@ -350,7 +350,6 @@ public:
 // -----------------------------------------------------------------------------------------------
 int main(int argc, char** argv)
 {
-    imgPoint = cv::imread("home/rc/catkin_ws/src/VLC/vlc_locator/坐标纸.jpg", CV_LOAD_IMAGE_COLOR);
     ros::init(argc, argv, "IMAGE_LISTENER_and_LOCATOR");
     IMAGE_LISTENER_and_LOCATOR obj;
     ros::spin();
