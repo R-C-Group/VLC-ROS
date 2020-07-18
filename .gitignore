@@ -34,5 +34,4 @@
 .vscode/
 mvcam/lib/libMVSDK.so
 vlc_locator_v2
-
-8kTest/
+*.mvdat
