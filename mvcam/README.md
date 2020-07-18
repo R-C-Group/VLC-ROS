@@ -16,3 +16,5 @@ MindVisionCamera => mvcam
 
 4. 如需更多功能，请参阅头文件 CameraApi.h ，里面有大量的API可供使用
 
+5. 树梅派4为arm 64bit架构，可以安装32bit和64bit系统。arm 64bit系统目前尚无该运行库，需要联系迈德威视公司技术支持以获取。
+

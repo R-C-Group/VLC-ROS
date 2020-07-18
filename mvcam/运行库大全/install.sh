@@ -3,7 +3,7 @@
 CURDIR=`pwd`
 echo "Your current directory is $CURDIR. This is where the MVSDK software will be installed..."
 A=`whoami`
-B=`getconf LONG_BIT`
+B=`arch`
 
 if [ $A != 'root' ]; then
    echo "You have to be root to run this script"
@@ -12,14 +12,26 @@ if [ $A != 'root' ]; then
 fi
 
 
-cp 88-mvusb.rules /etc/udev/rules.d/
+# cp 88-mvusb.rules /etc/udev/rules.d/
 
-if [ $B == '64' ]; then
-	cp 64bit/libMVSDK.so  /lib
-	echo "Copy 64bit libMVSDK.so to /lib"
+
+echo $B
+if [ $B = "x86_64" ]; then
+	cp x86_64/libMVSDK.so  /lib
+	cp x86_64/libMVSDK.so  ../lib
+	echo "Copy x86_64 64bit libMVSDK.so to /lib"
+elif [ $B = "i386" ]; then
+	cp i386/libMVSDK.so  /lib
+	cp i386/libMVSDK.so  ../lib
+	echo "Copy i386 libMVSDK.so to /lib"
+elif [ $B = "armhf" ]; then
+	cp armhf/libMVSDK.so  /lib
+	cp armhf/libMVSDK.so  ../lib
+	echo "Copy armhf 32bit libMVSDK.so to /lib"
 else
-	cp 32bit/libMVSDK.so  /lib
-	echo "Copy 32bit libMVSDK.so to /lib"
+	echo "Not support"
+	exit 1;
 fi
+
 echo "Successful"
 echo "Please  restart system  now!!!"
