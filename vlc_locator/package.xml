@@ -1,8 +1,11 @@
 <?xml version="2.0"?>
 <package format="2">
   <name>vlc_locator</name>
-  <version>2.0.0</version>
-  <description>The vlc_locator_v2 package</description>
+  <version>3.0.0</version>
+  <description>The vlc_locator package v3_Preview
+  High-Accuracy Robot Indoor Localization Scheme based on Robot Operating System using Visible Light Positioning.
+  ROS1 editon, and require OpenCV3 or higher. This editon is compatible with ROS kicetic, ROS melodic and noetic.
+  </description>
 
   <!-- One maintainer tag required, multiple allowed, one person per tag -->
   <!-- Example:  -->

@@ -1,8 +1,8 @@
-<?xml version="1.0"?>
+<?xml version="2.0"?>
 <package format="2">
   <name>mvcam</name>
-  <version>0.1.0</version>
-  <description>The mvcam package</description>
+  <version>0.1.1</version>
+  <description>The MindVison Camrea Node package</description>
 
   <!-- One maintainer tag required, multiple allowed, one person per tag -->
   <!-- Example:  -->
