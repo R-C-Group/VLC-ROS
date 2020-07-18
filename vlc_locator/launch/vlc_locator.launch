@@ -1,0 +1,4 @@
+<launch>
+    <node pkg="vlc_locator" name="vlc_locator" type="locator"/>
+        
+</launch>

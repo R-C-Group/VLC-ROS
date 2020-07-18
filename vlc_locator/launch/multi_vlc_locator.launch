@@ -1,0 +1,14 @@
+<launch>
+        <group ns="tb_0">
+                <node pkg="vlc_locator" name="vlc_locator" type="locator"/>
+        </group>
+
+        <group ns="tb_1">
+                <node pkg="vlc_locator" name="vlc_locator" type="locator"/>
+        </group>
+
+        <group ns="tb_2">
+                <node pkg="vlc_locator" name="vlc_locator" type="locator"/>
+        </group>
+        
+</launch>
