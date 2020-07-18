@@ -9,7 +9,12 @@
 //     描述：包含程序所依赖的头文件
 // ----------------------------------------------------------------------------------------------  
 #include "vlcCommonInclude.hpp"
-    
+#include "tf/transform_datatypes.h"
+#include <tf/transform_broadcaster.h>
+#include <tf/tf.h>
+#include <tf/transform_listener.h>
+#include <cstdio>
+#include "tf/transform_listener.h"
 
 // -----------------------------------------------------------------------------------------------
 // **********************************************************************************************
@@ -25,13 +30,11 @@ namespace vlc {
     class Point {
     private:
         geometry_msgs::Point point;
+        geometry_msgs::Pose pose;
         std::string poseFlag;  //!< if you want to get pose ("pose", etc.)
         
     public:
-        struct poseOfDoubleLED {
-            geometry_msgs::Point point;
-            double alpha;
-        };
+
 
         Point ();
         ~Point ();
@@ -42,8 +45,7 @@ namespace vlc {
                                 const double & Pixel_Size,
                                 const struct LED & D1,
                                 const struct LED & D2);
-        struct poseOfDoubleLED VLPbyLED(  //!< if you want to get pose ("pose", etc.)
-                                const std::string& poseFlag,
+        geometry_msgs::Pose VLPbyLEDwithPose(  //!< if you want to get pose ("pose", etc.)
                                 const double & f,
                                 const double & Center_X,
                                 const double & Center_Y,

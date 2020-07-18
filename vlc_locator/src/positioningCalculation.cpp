@@ -16,14 +16,6 @@
 // **********************************************************************************************
 // -----------------------------------------------------------------------------------------------
 
-cv::Mat pointOnMap(cv::Mat imgPoint, geometry_msgs::Point point) {
-    // -- 在平面地图上打点输出
-    double xxx = 5*point.x;
-    double yyy = 5*point.y;
-    circle(imgPoint, cv::Point(270+xxx, 512-yyy), 10, cv::Scalar(0, 0, 255));
-    return imgPoint;
-}
-
 vlc::Point::Point() {
 }
 
@@ -144,7 +136,7 @@ geometry_msgs::Point vlc::Point::VLPbyLED (const double & f,
 
         alpha = atan((D2.Y - D1.Y) / (D2.X - D1.X));
 
-        // cout << "alpha=" << alpha / pi * 180 << '\n';
+        // std::cout << "alpha=" << alpha / pi * 180 << '\n';
     }
 
 
@@ -155,14 +147,14 @@ geometry_msgs::Point vlc::Point::VLPbyLED (const double & f,
         angle = atan((ImgY2 - ImgY1) / (ImgX2 - ImgX1));
     }
 
-    // cout << "angle1=" << angle / pi * 180 << '\n';
+    // std::cout << "angle1=" << angle / pi * 180 << '\n';
 
     // 由于对称性，要对角度做进一步处理
     bool ABC = ImgY2 < ImgY1;
     bool EFG = ImgX2 > ImgX1;
     int ABCD = ABC * 2 + EFG;
     // ABCD = 3;
-    // cout << "ABCD=" << ABCD << '\n';
+    // std::cout << "ABCD=" << ABCD << '\n';
 
     switch (ABCD) {
     case 0:
@@ -189,7 +181,7 @@ geometry_msgs::Point vlc::Point::VLPbyLED (const double & f,
     double X = X_r;
     double Y = Y_r;
 
-    // cout << "angle=" << angle / pi * 180 << '\n';
+    // std::cout << "angle=" << angle / pi * 180 << '\n';
 
     double XX = X*cos(angle) - Y*sin(angle);
     double YY = X*sin(angle) + Y*cos(angle);
@@ -206,12 +198,11 @@ geometry_msgs::Point vlc::Point::VLPbyLED (const double & f,
     return point;
 }
 
-/* --------------【struct vlc::Point::poseOfDoubleLED VLPbyLED】--------------
-@Overload
+/* --------------【geometry_msgs::Pose VLPbyLED】--------------
 功能：带姿态角度的双灯定位计算
 注意：本函数的姿态角度尚未处理完成，两个方向会返回一样的角度，要结合ABCD判断来处理
 输入数据类型：
-    const std::string& poseFlag, pose标志位，必须输入字符串“pose”才能生效
+    (此项参数暂时放弃)const std::string& poseFlag, pose标志位，必须输入字符串“pose”才能生效
     const double f, 焦距
     const double Center_X, 图像X轴中心点
     const double Center_Y, 图像Y轴中心点
@@ -220,12 +211,9 @@ geometry_msgs::Point vlc::Point::VLPbyLED (const double & f,
     const struct LED D1, 第一个灯的信息
     const struct LED D2  第二个灯的信息
 输出数据类型
-    struct vlc::Point::poseOfDoubleLED 数据类型，包含了
-        point ROS的geometry_msgs::Point格式描述的点，
-        alpha 姿态角度
+    geometry_msgs::Pose 数据类型
 -------------------------------------------------------------------------- */
-struct vlc::Point::poseOfDoubleLED vlc::Point::VLPbyLED(
-                                const std::string& poseFlag,
+geometry_msgs::Pose VLPbyLEDwithPose(
                                 const double & f,
                                 const double & Center_X,
                                 const double & Center_Y,
@@ -233,9 +221,7 @@ struct vlc::Point::poseOfDoubleLED vlc::Point::VLPbyLED(
                                 const double & Pixel_Size,
                                 const struct LED & D1,
                                 const struct LED & D2) {
-    if (poseFlag != "pose") {
-        return {};
-    }  
+
 
     double ImgX1;
     double ImgY1;
@@ -247,8 +233,8 @@ struct vlc::Point::poseOfDoubleLED vlc::Point::VLPbyLED(
     double y2;
 
 
-    // cout << "D1="<< D1.ID << '\n';
-    // cout << "D2="<< D2.ID << '\n';
+    // std::cout << "D1="<< D1.ID << '\n';
+    // std::cout << "D2="<< D2.ID << '\n';
     // 计算角度
     double alpha;
     if ( D1.X == D2.X ) {
@@ -304,7 +290,6 @@ struct vlc::Point::poseOfDoubleLED vlc::Point::VLPbyLED(
         // if (x1<x2){
         // alpha = (pi/4)-(pi/4);
         // }
-
         // else{
         // alpha = (3*pi/4)+(pi/4);
         // }
@@ -331,7 +316,7 @@ struct vlc::Point::poseOfDoubleLED vlc::Point::VLPbyLED(
 
         alpha = atan((D2.Y - D1.Y) / (D2.X - D1.X));
 
-        // cout << "alpha=" << alpha / pi * 180 << '\n';
+        // std::cout << "alpha=" << alpha / pi * 180 << '\n';
     }
 
 
@@ -342,15 +327,18 @@ struct vlc::Point::poseOfDoubleLED vlc::Point::VLPbyLED(
         angle = atan((ImgY2 - ImgY1) / (ImgX2 - ImgX1));
     }
 
-    // cout << "angle1=" << angle / pi * 180 << '\n';
+    // std::cout << "angle1=" << angle / pi * 180 << '\n';
 
     // 由于对称性，要对角度做进一步处理
     bool ABC = ImgY2 < ImgY1;
     bool EFG = ImgX2 > ImgX1;
     int ABCD = ABC * 2 + EFG;
     // ABCD = 3;
-    // cout << "ABCD=" << ABCD << '\n';
+    // std::cout << "ABCD=" << ABCD << '\n';
 
+    /* TODO:
+    四种case需要修正！由于此前过度优化，四种case的计算被合并为两种，在带角度的计算中需要分开
+    */
     switch (ABCD) {
     case 0:
         angle = - angle + alpha;
@@ -365,6 +353,9 @@ struct vlc::Point::poseOfDoubleLED vlc::Point::VLPbyLED(
         angle = pi - angle + alpha;
         break;
     }
+	// 角度修改，angle1就是相对于map的角度
+	double angle1 = angle - (pi / 2);
+	std::cout << "angle1=" << angle1 / pi * 180 << '\n';
 
     double d_12 = sqrt(pow((ImgX1 - ImgX2), 2) + pow((ImgY1 - ImgY2), 2))*Pixel_Size;
     double D_12 = sqrt(pow((x1 - x2), 2) + pow((y1 - y2), 2));
@@ -376,6 +367,10 @@ struct vlc::Point::poseOfDoubleLED vlc::Point::VLPbyLED(
     double X = X_r;
     double Y = Y_r;
 
+	// 将角度转换为四元数 https://blog.csdn.net/orange_littlegirl/article/details/95390663
+	geometry_msgs::Quaternion quat;
+	quat = tf::createQuaternionMsgFromYaw(angle1);
+
     // cout << "angle=" << angle / pi * 180 << '\n';
 
     double XX = X*cos(angle) - Y*sin(angle);
@@ -384,14 +379,52 @@ struct vlc::Point::poseOfDoubleLED vlc::Point::VLPbyLED(
     XX = XX + X_c;
     YY = YY + Y_c;
 
-    struct poseOfDoubleLED pose;
-    // mm转化为m
-    pose.alpha = alpha;
-    pose.point.x = XX / 1000;
-    pose.point.y = YY / 1000;
-    pose.point.z = (Hight_of_LED - H/100) / 1000;
+	// 返回带角度的pose
+	geometry_msgs::Pose pose;
+	pose.position.x = XX / 100;
+	pose.position.y = YY / 1000;
+	pose.position.z = (Hight_of_LED - H / 100) / 1000;
+	pose.orientation = quat;
+
+    // 计算完直接发布到tf
+    // tf::TransformBroadcaster mvcam_broadcaster;
+	// ros::Time current_time = ros::Time::now();
+	// tf::Stamped<tf::Pose> odom_to_map;
+    // try {
+    // double angle2=45.0;
+
+    // tf::Transform tmp_tf(tf::createQuaternionFromYaw(angle2),tf::Vector3(pose.position.x , pose.position.y , 0));
+    // // tf::Transform tmp_tf;
+    // // tf::Quaternion q;
+    // // q.setRPY(0, 0, angle2);
+    // // tmp_tf.setRotation(q);
+    // // tmp_tf.setOrigin( tf::Vector3(pose.position.x , pose.position.y , 0) );
+   
+    // tf::Stamped<tf::Pose> tmp_tf_stamped(tmp_tf.inverse(), ros::Time::now(), "base_footprint");
+    // tf::TransformListener *tf_ = new tf::TransformListener();
+    // tf_->transformPose("odom", tmp_tf_stamped, odom_to_map);
+    // }
+    
+    // catch (tf::TransformException)
+	// 	{
+	// 		ROS_DEBUG("Failed to subtract base to odom transform");
+	// 	}
+    // double yaw, pitch, roll;
+    // tf::Quaternion q = odom_to_map.getRotation();
+    // std::cout << "- Rotation: in Quaternion [" << q.getX() << ", " << q.getY() << ", " 
+    //             << q.getZ() << ", " << q.getW() << "]" << std::endl
+    //             << "            in RPY (radian) [" <<  roll << ", " << pitch << ", " << yaw << "]" << std::endl
+    //             << "            in RPY (degree) [" <<  roll*180.0/M_PI << ", " << pitch*180.0/M_PI << ", " << yaw*180.0/M_PI << "]" << std::endl;
+
+    // tf::Transform latest_tf_ = tf::Transform(tf::Quaternion(odom_to_map.getRotation()),tf::Point(odom_to_map.getOrigin()));
+	// tf::StampedTransform tmp_tf_stamped(latest_tf_.inverse(), (current_time+ros::Duration(1.5)), "map", "odom");
+    
+    // mvcam_broadcaster.sendTransform(tmp_tf_stamped);
+
+    // ROS_INFO("good1");
 
     return pose;
+	
 }
 /* ------------【geometry_msgs::Point vlc::Point::VLPbyLED】---------------
 @Overload
@@ -438,7 +471,7 @@ geometry_msgs::Point vlc::Point::VLPbyLED (const double & f,
     double D_23 = sqrt(pow((x2 - x3), 2) + pow((y2 - y3), 2));
     // 计算出高度
     double H = (D_12 / d_12*f + D_13 / d_13*f + D_23 / d_23*f) / 3;
-    // cout << "H=" << H << '\n';
+    // std::cout << "H=" << H << '\n';
 
     // 计算水平方向上摄像头到3个LED的距离
     double d_1 = sqrt(pow((ImgX1 - Center_X), 2) + pow((ImgY1 - Center_Y), 2))*Pixel_Size;

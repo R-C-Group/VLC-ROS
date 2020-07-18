@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8.3)
+cmake_minimum_required(VERSION 3.5)
 project(vlc_locator)
 
 find_package(catkin REQUIRED COMPONENTS
@@ -8,6 +8,7 @@ find_package(catkin REQUIRED COMPONENTS
   image_transport
   sensor_msgs
   std_msgs
+  tf
 )
 
 find_package(OpenCV)
@@ -56,12 +57,12 @@ add_executable(locator_2_max
 target_link_libraries(locator_2_max ${catkin_LIBRARIES}  ${OpenCV_LIBS})
 
 #find_package(OpenCV REQUIRED)
-add_executable(test
-  src/test.cpp
+add_executable(ID_rec_demo
+  src/ID_rec_demo.cpp
   src/imageProcess.cpp
   src/positioningCalculation.cpp
 )
-target_link_libraries(test ${catkin_LIBRARIES}  ${OpenCV_LIBS})
+target_link_libraries(ID_rec_demo ${catkin_LIBRARIES}  ${OpenCV_LIBS})
 
 add_definitions(-std=c++17)
 
