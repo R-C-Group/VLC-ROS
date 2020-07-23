@@ -21,11 +21,11 @@ if [ $B = "x86_64" ]; then
 	cp x86_64/libMVSDK.so  /lib
 	cp x86_64/libMVSDK.so  ../lib
 	echo "Copy x86_64 64bit libMVSDK.so to /lib and ../lib \n"
-elif [ $B = "i386" ]; then
+elif [ $B = "i686" ]; then
 	cp i386/libMVSDK.so  /lib
 	cp i386/libMVSDK.so  ../lib
 	echo "Copy i386 32bit libMVSDK.so to /lib and ../lib \n"
-elif [ $B = "armhf" ]; then
+elif [ $B = "armv7l" ]; then
 	cp armhf/libMVSDK.so  /lib
 	cp armhf/libMVSDK.so  ../lib
 	echo "Copy armhf 32bit libMVSDK.so to /lib and ../lib \n"
