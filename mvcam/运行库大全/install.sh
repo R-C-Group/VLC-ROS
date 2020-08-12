@@ -32,8 +32,7 @@ elif [ $B = "armv7l" ]; then
 elif [ $B = "aarch64" ]; then
 	cp armhf/libMVSDK.so  /lib
 	cp armhf/libMVSDK.so  ../lib
-	echo "Copy armhf 32bit libMVSDK.so to /lib and ../lib \n But I'm not sure if it's going to work on aarch64 architecture, if it works, remove this message.
-"
+	echo "Copy armhf 32bit libMVSDK.so to /lib and ../lib \n But I'm not sure if it's going to work on aarch64 architecture, if it works, remove this message."
 else
 	echo "Not support"
 	exit 1;
